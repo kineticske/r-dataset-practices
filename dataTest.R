@@ -19,16 +19,24 @@ dataset$Salary =ifelse(is.na(dataset$Salary),
 dataset$Country =factor(dataset$Country, 
                         levels=c('France', 'Spain', 'Germany'),
                         labels=c(1,2,3))
-
+# remember factor is not numeric
 dataset$Purchased =factor(dataset$Purchased, 
                         levels=c('Yes', 'No'),
                         labels=c(1,0))
 
-#Splitting data into the training test and test set
+#Splitting data into the training set and test set
 #install.packages('caTools')
 library(caTools)
 set.seed(123)
 split =sample.split(dataset$Purchased, SplitRatio = 0.8)
 training_set= subset(dataset, split=TRUE)
 test_set= subset(dataset, split=FALSE)
+
+#Feature Scaling
+#because factor is not numeric we need to slice both set
+training_set[,2:3]=scale(training_set[,2:3])
+test_set[,2:3]=scale(test_set[,2:3])
+
+
+
 
